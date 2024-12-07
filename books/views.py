@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Book
 
-
-def index(request):
-    return HttpResponse("Books Homepage!!!")
+def book_list(request):
+    books = Book.objects.all()
+    return render(request, 'bookstore/book_list.html', {'books': books})
