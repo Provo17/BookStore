@@ -1,0 +1,63 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+
+# Environment variables and settings
+.env
+*.env
+
+# Media and static files
+/media/
+/staticfiles/
+/static/
+
+# Virtual environment
+venv/
+env/
+ENV/
+venv.bak/
+
+# Cache and other files
+*.mo
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
+*.dockerignore
+
+# Testing
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+
+# Build files
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Node.js related (if applicable for frontend)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
