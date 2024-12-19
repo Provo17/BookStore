@@ -26,4 +26,5 @@ urlpatterns = [
 
     # Books app urls
     path('books/', include('books.urls')),
+    path('users/', include('users.urls')),
 ]
