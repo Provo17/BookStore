@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 class Book(models.Model):
     GENRE_CHOICES = [
@@ -22,6 +23,7 @@ class Book(models.Model):
         ('18+', '18+ years'),
     ]
 
+    slug = models.SlugField(unique=True, blank=True, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     publication_date = models.DateField()
@@ -33,7 +35,13 @@ class Book(models.Model):
     publisher = models.CharField(max_length=100)
     pages = models.IntegerField()
     age_range = models.CharField(max_length=10, choices=AGE_RANGE_CHOICES, default='18+')
+    cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True)
+    stock = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        unique_slug = slugify(self.title)
+        self.slug = unique_slug
+        super().save(*args, **kwargs)

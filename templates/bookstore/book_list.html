@@ -47,7 +47,8 @@
         <tbody>
             {% for book in books %}
             <tr>
-                <td>{{ book.title }}</td>
+                <!-- Book title as a clickable link -->
+                <td><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></td>
                 <td>{{ book.author }}</td>
                 <td>{{ book.get_genre_display }}</td>
                 <td>{{ book.publication_date|date:"M d, Y" }}</td>
