@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Homepage</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-section {
+            flex: 1;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .auth {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        /* Categories Section Styles */
+        .categories {
+            background-color: #ddd;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .categories a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .categories a:hover {
+            color: #007BFF;
+        }
+
+        /* Hero section styles */
+        .hero {
+            height: 300px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            color: #333;
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 20px;
+        }
+
+        .content-section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .content-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .content-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .content-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 0 10px;
+        }
+        
+        .highest-ranked .content-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
+        }
+        
+        .best-sellers .content-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 equal spaces */
+        }
+
+         .best-in-genre .content-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-section logo">
+            Logo
+        </div>
+        <div class="header-section search-bar">
+            <input type="text" placeholder="Search">
+        </div>
+        <div class="header-section">
+            <a href="/login" class="auth">Sign In</a>
+        </div>
+    </header>
+
+    <!-- Categories Section -->
+    <div class="categories">
+        <a href="#">Books</a>
+        <a href="#">Fiction</a>
+        <a href="#">Non-Fiction</a>
+        <a href="#">Horror</a>
+        <a href="#">Romance</a>
+        <a href="#">Adventure</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        Hero Image
+    </section>
+
+    <!-- Content Section: Highest Ranked -->
+    <section class="content-section highest-ranked">
+        <h2>Highest Ranked</h2>
+        <div class="content-grid">
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>On a hunt for the best kombucha</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Shoreditch's best bodegas</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Cooking on a budget</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Best alcohol-free cocktails</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section: Best Sellers -->
+    <section class="content-section">
+        <h2>Best Sellers</h2>
+        <div class="content-grid">
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>1. People are happy and healthy everywhere</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>2. Hockey Championship is about to start</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>3. Finally a good theatre!</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section: Best in Genre -->
+    <section class="content-section">
+        <h2>Best in Genre</h2>
+        <div class="content-grid">
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>On a hunt for the best kombucha</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Shoreditch's best bodegas</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Cooking on a budget</h3>
+            </div>
+            <div class="content-item">
+                <img src="https://via.placeholder.com/150" alt="Book Cover">
+                <h3>Best alcohol-free cocktails</h3>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+
+
+
+
