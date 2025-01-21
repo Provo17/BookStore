@@ -1,4 +1,5 @@
 from django.shortcuts import render
-
+from books.models import Book
 def index(request):
-    return render(request, 'bookstore/homepage.html')  # Include the 'bookstore/' prefix
+    books = Book.objects.filter(rating=5).order_by('title')
+    return render(request, 'bookstore/homepage.html', {'books': books})  # Include the 'bookstore/' prefix

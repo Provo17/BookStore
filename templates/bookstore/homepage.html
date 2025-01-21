@@ -161,22 +161,19 @@
     <section class="content-section highest-ranked">
         <h2>Highest Ranked</h2>
         <div class="content-grid">
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>On a hunt for the best kombucha</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Shoreditch's best bodegas</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Cooking on a budget</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Best alcohol-free cocktails</h3>
-            </div>
+            {% for book in books %}
+                <div class="content-item">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
+                    {% else %}
+                        <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
+                    {% endif %}
+                    <h3>{{ book.title }}</h3>
+                    <p>by {{ book.author }}</p>
+                </div>
+            {% empty %}
+                <p>No highest-ranked books available.</p>
+            {% endfor %}
         </div>
     </section>
 
