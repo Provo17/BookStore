@@ -1,224 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookstore Homepage</title>
-    <style>
-        /* General styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Header styles */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #f4f4f4;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .header-section {
-            flex: 1;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .search-bar input {
-            width: 80%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .auth {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-        }
-
-        /* Categories Section Styles */
-        .categories {
-            background-color: #ddd;
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .categories a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .categories a:hover {
-            color: #007BFF;
-        }
-
-        /* Hero section styles */
-        .hero {
-            height: 300px;
-            background-color: #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            color: #333;
-        }
-
-        /* Content sections */
-        .content-section {
-            padding: 20px;
-        }
-
-        .content-section h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        .content-item {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .content-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .content-item h3 {
-            font-size: 16px;
-            margin: 10px 0;
-            padding: 0 10px;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bookstore Homepage</title>
+        <style>
+            /* General styles */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+    
+            /* Header styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 20px;
+                background-color: #f4f4f4;
+                border-bottom: 1px solid #ddd;
+            }
+    
+            .header-section {
+                flex: 1;
+                text-align: center;
+            }
+    
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+            }
+    
+            .search-bar input {
+                width: 80%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+    
+            .auth {
+                text-decoration: none;
+                color: #007BFF;
+                font-weight: bold;
+            }
+    
+            /* Categories Section Styles */
+            .categories {
+                background-color: #ddd;
+                padding: 10px;
+                text-align: center;
+                border-bottom: 1px solid #ccc;
+            }
+    
+            .categories a {
+                margin: 0 15px;
+                text-decoration: none;
+                color: #333;
+                font-size: 16px;
+            }
+    
+            .categories a:hover {
+                color: #007BFF;
+            }
+    
+            /* Hero section styles */
+            .hero {
+                height: 300px;
+                background-color: #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 32px;
+                color: #333;
+            }
+    
+            /* Content sections */
+            .content-section {
+                padding: 20px;
+            }
+    
+            .content-section h2 {
+                font-size: 24px;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #ddd;
+                padding-bottom: 5px;
+            }
+    
+            .content-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+    
+            .content-item {
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+    
+            .content-item img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+            }
+    
+            .content-item h3 {
+                font-size: 16px;
+                margin: 10px 0;
+                padding: 0 10px;
+            }
+            
+            {# beggining of css for slider#}
+            .highest-ranked .content-grid {
+            grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
+            }
+            
+            .best-sellers .content-grid {
+            grid-template-columns: repeat(3, 1fr); /* 3 equal spaces */
+            }
+    
+             .best-in-genre .content-grid {
+            grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
+            }
+    
+    
+            .slider-container {
+                position: relative;
+                width: 100%;
+                margin: auto;
+                overflow: hidden;
+            }
         
-        .highest-ranked .content-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
-        }
+            .slider {
+                display: flex;
+                transition: transform 0.3s ease-in-out;
+                will-change: transform;
+            }
         
-        .best-sellers .content-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 equal spaces */
-        }
-
-         .best-in-genre .content-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 equal spaces */
-        }
+            .slide {
+                min-width: 25%; /* Show 4 slides at a time */
+                box-sizing: border-box;
+                padding: 10px;
+            }
         
-    </style>
-</head>
-<body>
-    <!-- Header Section -->
-    <header>
-        <div class="header-section logo">
-            Logo
+            .content-item img {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        
+            .content-item h3 {
+                margin: 10px 0 5px;
+                font-size: 1.1rem;
+                text-align: center;
+            }
+        
+            .content-item p {
+                font-size: 0.9rem;
+                text-align: center;
+                color: #666;
+            }
+        
+            .slider-button {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                z-index: 10;
+            }
+        
+            .slider-button.prev {
+                left: 10px;
+            }
+        
+            .slider-button.next {
+                right: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header Section -->
+        <header>
+            <div class="header-section logo">
+                Logo
+            </div>
+            <div class="header-section search-bar">
+                <input type="text" placeholder="Search">
+            </div>
+            <div class="header-section">
+                <a href="/login" class="auth">Sign In</a>
+            </div>
+        </header>
+    
+        <!-- Categories Section -->
+        <div class="categories">
+            <a href="#">Books</a>
+            <a href="#">Fiction</a>
+            <a href="#">Non-Fiction</a>
+            <a href="#">Horror</a>
+            <a href="#">Romance</a>
+            <a href="#">Adventure</a>
         </div>
-        <div class="header-section search-bar">
-            <input type="text" placeholder="Search">
-        </div>
-        <div class="header-section">
-            <a href="/login" class="auth">Sign In</a>
-        </div>
-    </header>
-
-    <!-- Categories Section -->
-    <div class="categories">
-        <a href="#">Books</a>
-        <a href="#">Fiction</a>
-        <a href="#">Non-Fiction</a>
-        <a href="#">Horror</a>
-        <a href="#">Romance</a>
-        <a href="#">Adventure</a>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        Hero Image
-    </section>
-
-    <!-- Content Section: Highest Ranked -->
-    <section class="content-section highest-ranked">
-        <h2>Highest Ranked</h2>
-        <div class="content-grid">
+    
+        <!-- Hero Section -->
+        <section class="hero">
+            Hero Image
+        </section>
+    
+        <!-- Content Section: Highest Ranked -->
+        <section class="content-section highest-ranked">
+            <h2>Highest Ranked</h2>
+    <div class="slider-container">
+    <div class="slider-container">
+        <button class="slider-button prev" onclick="moveSlide(-1)" disabled>&#10094;</button>
+        <div class="slider">
             {% for book in books %}
-                <div class="content-item">
-                    {% if book.cover_image %}
-                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
-                    {% else %}
-                        <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
-                    {% endif %}
-                    <h3>{{ book.title }}</h3>
-                    <p>by {{ book.author }}</p>
+                <div class="slide">
+                    <div class="content-item">
+                        {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
+                        {% endif %}
+                        <h3>{{ book.title }}</h3>
+                        <p>by {{ book.author }}</p>
+                    </div>
                 </div>
             {% empty %}
                 <p>No highest-ranked books available.</p>
             {% endfor %}
         </div>
-    </section>
-
-    <!-- Content Section: Best Sellers -->
-    <section class="content-section">
-        <h2>Best Sellers</h2>
-        <div class="content-grid">
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>1. People are happy and healthy everywhere</h3>
+        <button class="slider-button next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+    </div>
+        </section>
+    
+        <!-- Content Section: Best Sellers -->
+        <section class="content-section">
+            <h2>Best Sellers</h2>
+            <div class="content-grid">
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>1. People are happy and healthy everywhere</h3>
+                </div>
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>2. Hockey Championship is about to start</h3>
+                </div>
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>3. Finally a good theatre!</h3>
+                </div>
             </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>2. Hockey Championship is about to start</h3>
+        </section>
+    
+        <!-- Content Section: Best in Genre -->
+        <section class="content-section">
+            <h2>Best in Genre</h2>
+            <div class="content-grid">
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>On a hunt for the best kombucha</h3>
+                </div>
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>Shoreditch's best bodegas</h3>
+                </div>
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>Cooking on a budget</h3>
+                </div>
+                <div class="content-item">
+                    <img src="https://via.placeholder.com/150" alt="Book Cover">
+                    <h3>Best alcohol-free cocktails</h3>
+                </div>
             </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>3. Finally a good theatre!</h3>
-            </div>
-        </div>
-    </section>
-
-    <!-- Content Section: Best in Genre -->
-    <section class="content-section">
-        <h2>Best in Genre</h2>
-        <div class="content-grid">
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>On a hunt for the best kombucha</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Shoreditch's best bodegas</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Cooking on a budget</h3>
-            </div>
-            <div class="content-item">
-                <img src="https://via.placeholder.com/150" alt="Book Cover">
-                <h3>Best alcohol-free cocktails</h3>
-            </div>
-        </div>
-    </section>
-</body>
+        </section>
+        <footer>
+            <script>
+                let currentSlide = 0;
+            
+                function moveSlide(direction) {
+                    const slider = document.querySelector('.slider');
+                    const slides = document.querySelectorAll('.slide');
+                    const totalSlides = slides.length; // Use the number of slides from the view
+                    const slidesPerView = 4;
+            
+                    // Update the current slide index
+                    currentSlide += direction;
+            
+                    // Clamp the current slide index within valid bounds
+                    if (currentSlide <= 0) {
+                        currentSlide = 0;
+                        document.querySelector('.slider-button.prev').setAttribute('disabled', 'true');
+                    } else {
+                        document.querySelector('.slider-button.prev').removeAttribute('disabled');
+                    }
+            
+                    if (currentSlide >= totalSlides - slidesPerView) {
+                        currentSlide = totalSlides - slidesPerView;
+                        document.querySelector('.slider-button.next').setAttribute('disabled', 'true');
+                    } else {
+                        document.querySelector('.slider-button.next').removeAttribute('disabled');
+                    }
+            
+                    // Calculate and apply the transform
+                    const slideWidth = slides[0].offsetWidth;
+                    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                }
+            </script>
+        </footer>
+    </body>
 </html>
 
 
