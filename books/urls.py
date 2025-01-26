@@ -7,3 +7,4 @@ urlpatterns = [
     path('book/<int:pk>/', book_detail, name='book_detail'),
     path('books/', views.book_list, name='book-list'),  # Example route for book list
 ]
+

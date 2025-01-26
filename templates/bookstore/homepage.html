@@ -217,12 +217,11 @@
     
         <!-- Content Section: Highest Ranked -->
         <section class="content-section highest-ranked">
-            <h2>Highest Ranked</h2>
-    <div class="slider-container">
-    <div class="slider-container">
-        <button class="slider-button prev" onclick="moveSlide(-1)" disabled>&#10094;</button>
+    <h2>Highest Ranked</h2>
+    <div class="slider-container" id="highest-ranked-slider">
+        <button class="slider-button prev" onclick="moveSlide('highest-ranked-slider', -1)" disabled>&#10094;</button>
         <div class="slider">
-            {% for book in books %}
+            {% for book in highest_ranked %}
                 <div class="slide">
                     <div class="content-item">
                         {% if book.cover_image %}
@@ -234,92 +233,101 @@
                         <p>by {{ book.author }}</p>
                     </div>
                 </div>
-            {% empty %}
-                <p>No highest-ranked books available.</p>
             {% endfor %}
         </div>
-        <button class="slider-button next" onclick="moveSlide(1)">&#10095;</button>
+        <button class="slider-button next" onclick="moveSlide('highest-ranked-slider', 1)">&#10095;</button>
     </div>
-    </div>
-        </section>
+</section>
     
         <!-- Content Section: Best Sellers -->
-        <section class="content-section">
-            <h2>Best Sellers</h2>
-            <div class="content-grid">
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>1. People are happy and healthy everywhere</h3>
+        <section class="content-section best-sellers">
+    <h2>Best Sellers</h2>
+    <div class="slider-container" id="best-sellers-slider-container">
+        <button class="slider-button prev" onclick="moveSlide('best-sellers-slider', -1)">&#10094;</button>
+        <div class="slider" id="best-sellers-slider">
+            {% for book in best_sellers %}
+                <div class="slide">
+                    <div class="content-item">
+                        {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
+                        {% endif %}
+                        <h3>{{ book.title }}</h3>
+                        <p>by {{ book.author }}</p>
+                        <p>Total Sales: {{ book.total_sales }}</p>
+                    </div>
                 </div>
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>2. Hockey Championship is about to start</h3>
-                </div>
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>3. Finally a good theatre!</h3>
-                </div>
-            </div>
-        </section>
+            {% endfor %}
+        </div>
+        <button class="slider-button next" onclick="moveSlide('best-sellers-slider', 1)">&#10095;</button>
+    </div>
+</section>
+
     
         <!-- Content Section: Best in Genre -->
-        <section class="content-section">
-            <h2>Best in Genre</h2>
-            <div class="content-grid">
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>On a hunt for the best kombucha</h3>
+        <section class="content-section best-in-genre">
+    <h2>Best in Genre</h2>
+    <div class="slider-container" id="best-in-genre-slider">
+        <button class="slider-button prev" onclick="moveSlide('best-in-genre-slider', -1)" disabled>&#10094;</button>
+        <div class="slider">
+            {% for genre, book in best_in_genre.items %}
+                <div class="slide">
+                    <div class="content-item">
+                        {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
+                        {% endif %}
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ genre }}</p>
+                        <p>by {{ book.author }}</p>
+                    </div>
                 </div>
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>Shoreditch's best bodegas</h3>
-                </div>
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>Cooking on a budget</h3>
-                </div>
-                <div class="content-item">
-                    <img src="https://via.placeholder.com/150" alt="Book Cover">
-                    <h3>Best alcohol-free cocktails</h3>
-                </div>
-            </div>
-        </section>
+            {% endfor %}
+        </div>
+        <button class="slider-button next" onclick="moveSlide('best-in-genre-slider', 1)">&#10095;</button>
+    </div>
+</section>
+
         <footer>
             <script>
                 let currentSlide = 0;
             
-                function moveSlide(direction) {
-                    const slider = document.querySelector('.slider');
-                    const slides = document.querySelectorAll('.slide');
-                    const totalSlides = slides.length; // Use the number of slides from the view
-                    const slidesPerView = 4;
-            
-                    // Update the current slide index
-                    currentSlide += direction;
-            
-                    // Clamp the current slide index within valid bounds
-                    if (currentSlide <= 0) {
-                        currentSlide = 0;
-                        document.querySelector('.slider-button.prev').setAttribute('disabled', 'true');
-                    } else {
-                        document.querySelector('.slider-button.prev').removeAttribute('disabled');
-                    }
-            
-                    if (currentSlide >= totalSlides - slidesPerView) {
-                        currentSlide = totalSlides - slidesPerView;
-                        document.querySelector('.slider-button.next').setAttribute('disabled', 'true');
-                    } else {
-                        document.querySelector('.slider-button.next').removeAttribute('disabled');
-                    }
-            
-                    // Calculate and apply the transform
-                    const slideWidth = slides[0].offsetWidth;
-                    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                function moveSlide(sliderId, direction) {
+                const slider = document.getElementById(sliderId); // Get the slider by its ID
+                const slides = slider.querySelectorAll('.slide'); // Get all slides
+                const slideWidth = slides[0].offsetWidth; // Get the width of one slide
+                const currentTransform = getComputedStyle(slider).transform; // Get the current transform
+
+                // Extract the current translateX value
+                let currentX = currentTransform === 'none' ? 0 : parseFloat(currentTransform.split(',')[4]);
+
+                // Calculate the new translateX value
+                const newX = currentX - direction * slideWidth;
+
+                // Prevent overflow
+                const maxTransform = 0;
+                const minTransform = -(slides.length - 1) * slideWidth;
+
+                // Apply the new transform if within bounds
+                if (newX <= maxTransform && newX >= minTransform) {
+                    slider.style.transform = `translateX(${newX}px)`;
+
+                    // Enable/disable buttons based on position
+                    const container = document.getElementById(`${sliderId}-container`);
+                    const prevButton = container.querySelector('.prev');
+                    const nextButton = container.querySelector('.next');
+                    prevButton.disabled = newX >= maxTransform;
+                    nextButton.disabled = newX <= minTransform;
                 }
+            }
             </script>
         </footer>
     </body>
 </html>
+
+
 
 
 
