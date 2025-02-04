@@ -37,7 +37,7 @@ class Book(models.Model):
     pages = models.IntegerField()
     age_range = models.CharField(max_length=10, choices=AGE_RANGE_CHOICES, default='18+')
     cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True)
-    stock = models.IntegerField(default=0)
+    stock = models.IntegerField(default=0) # quantity of books available in stock
     total_sales = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -47,20 +47,3 @@ class Book(models.Model):
         unique_slug = slugify(self.title)
         self.slug = unique_slug
         super().save(*args, **kwargs)
-
-class Sale(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="sales")
-    quantity = models.PositiveIntegerField()
-    sale_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date}"
-
-    @staticmethod
-    def update_book_sales(book_id, quantity):
-        """
-        Update the sales count and reduce stock for a book.
-        """
-        book = Book.objects.get(id=book_id)
-        book.stock -= quantity
-        book.save()
