@@ -1,19 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ book.title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Book Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        strong {
+            color: #555;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-link:hover {
+            background: #555;
+        }
+        .buy-section {
+            margin-top: 20px;
+        }
+        .quantity-input {
+            width: 50px;
+            padding: 5px;
+            font-size: 16px;
+        }
+        .buy-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .buy-button:hover {
+            background-color: darkgreen;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ book.title }}</h1>
-    <p><strong>Author:</strong> {{ book.author }}</p>
-    <p><strong>Description:</strong> {{ book.description }}</p>
-    <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
-    <p><strong>ISBN:</strong> {{ book.isbn_13 }}</p>
-    <p><strong>Rating:</strong> {{ book.rating }}</p>
-    <p><strong>Price:</strong> {{ book.price }}</p>
-    <p><strong>Genre:</strong> {{ book.genre }}</p>
-    <p><strong>Pages:</strong> {{ book.pages }}</p>
-    <p><strong>Age Range:</strong> {{ book.age_range }}</p>
+
+    <div class="container">
+        <h1>{{ book.title }}</h1>
+
+        {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }} Cover">
+        {% else %}
+            <img src="https://via.placeholder.com/150" alt="No Cover Available">
+        {% endif %}
+
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Description:</strong> {{ book.description }}</p>
+        <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn_13 }}</p>
+        <p><strong>Rating:</strong> {{ book.rating }}</p>
+        <p><strong>Price:</strong> ${{ book.price }}</p>
+        <p><strong>Genre:</strong> {{ book.get_genre_display }}</p>
+        <p><strong>Pages:</strong> {{ book.pages }}</p>
+        <p><strong>Age Range:</strong> {{ book.age_range }}</p>
+        <p><strong>Stock:</strong> <span id="stock-count">{{ book.stock }}</span></p>
+
+        <!-- Buy Section -->
+        <div class="buy-section">
+            <input type="number" id="quantity" class="quantity-input" min="1" max="{{ book.stock }}" value="1">
+            <button class="buy-button" onclick="buyBook()">Buy Now</button>
+            <p id="message" class="message"></p>
+        </div>
+
+        <a href="{% url 'book_list' %}" class="back-link">⬅ Back to Book List</a>
+    </div>
+
+    <!-- JavaScript to Handle AJAX Request -->
+    <script>
+        function buyBook() {
+            let quantity = document.getElementById('quantity').value;
+            let message = document.getElementById('message');
+            let stockCount = document.getElementById('stock-count');
+
+            fetch("{% url 'record_sale' book.id %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: "quantity=" + quantity
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    message.style.color = "green";
+                    message.innerHTML = data.success;
+                    stockCount.innerHTML = parseInt(stockCount.innerHTML) - parseInt(quantity); // Update stock count
+                } else {
+                    message.style.color = "red";
+                    message.innerHTML = data.error;
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
 
 </body>
 </html>
+

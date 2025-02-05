@@ -16,6 +16,10 @@ def record_sale(request, book_id):
     """
     Record a sale for a book.
     """
+    # Ensure the user is logged in
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'You must be logged in to purchase a book'}, status=403)
+
     book = get_object_or_404(Book, id=book_id)
     quantity = int(request.POST.get('quantity', 1))
 
@@ -23,11 +27,10 @@ def record_sale(request, book_id):
     if book.stock < quantity:
         return JsonResponse({'error': 'Not enough stock available'}, status=400)
 
-    # Create Sale record
-    Sale.objects.create(book=book, quantity=quantity)
+    # Create Sale record with user
+    Sale.objects.create(book=book, user=request.user, quantity=quantity)
 
     # Update Book's total sales and stock
-    book.total_sales += quantity
     book.stock -= quantity
     book.save()
 
