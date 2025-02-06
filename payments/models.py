@@ -17,5 +17,9 @@ class Sale(models.Model):
         Update the sales count and reduce stock for a book.
         """
         book = Book.objects.get(id=book_id)
+
+        if book.stock < quantity:
+            raise ValueError("Not enough stock available")
+
         book.stock -= quantity
         book.save()
