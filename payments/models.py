@@ -11,7 +11,8 @@ class Sale(models.Model):
     sale_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date}"
+        def __str__(self):
+            return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date.strftime('%b %d, %Y at %I:%M %p')}"
 
     def clean(self):
         """

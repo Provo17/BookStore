@@ -37,16 +37,36 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: left;
         }
 
         th {
-            background-color: #f4f4f4;
+            background-color: #007BFF;
+            color: white;
         }
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
+        }
+
+        .book-link {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .book-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        .empty-message {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -66,16 +86,22 @@
             <tbody>
                 {% for sale in sales %}
                 <tr>
-                    <td>{{ sale.book.title }}</td>
+                    <td>
+                        <a href="{% url 'book_detail' sale.book.pk %}" class="book-link">
+                            {{ sale.book.title }}
+                        </a>
+                    </td>
                     <td>{{ sale.quantity }}</td>
-                    <td>{{ sale.purchase_date|date:"M d, Y h:i A" }}</td>
+                    <td>{{ sale.sale_date|date:"M d, Y h:i A" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-        <p>You have not made any purchases yet.</p>
+        <p class="empty-message">You have not made any purchases yet.</p>
         {% endif %}
     </div>
 </body>
 </html>
+
+

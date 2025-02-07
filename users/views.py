@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from .forms import EditAccountForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from payments.models import Sale  # Import the Sale model
@@ -52,8 +52,21 @@ def custom_login(request):
 def purchase_history(request):
     # Retrieve all sales for the currently logged-in user
     sales = Sale.objects.filter(user=request.user).order_by('-sale_date')
-    return render(request, 'users/purchase_history.html', {'sales': sales})
+    return render(request, 'bookstore/purchase_history.html', {'sales': sales})
 
 @login_required
 def user_account(request):
     return render(request, 'registration/signup.html', {'user': request.user})
+
+@login_required
+def edit_account(request):
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your account has been updated!")
+            return redirect('user_account')
+    else:
+        form = EditAccountForm(instance=request.user)
+
+    return render(request, 'bookstore/edit_account.html', {'form': form})
