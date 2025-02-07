@@ -4,12 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
     role = forms.ChoiceField(
         choices=[('customer', 'Customer'), ('author', 'Author')],  # Exclude "admin"
         required=True
     )
+
 
     class Meta:
         model = User

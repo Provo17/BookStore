@@ -130,19 +130,19 @@
     
             .slider-container {
                 position: relative;
-                width: 100%;
-                margin: auto;
                 overflow: hidden;
+                width: 100%;
             }
         
             .slider {
                 display: flex;
+                gap: 15px;
                 transition: transform 0.3s ease-in-out;
                 will-change: transform;
             }
         
             .slide {
-                min-width: 25%; /* Show 4 slides at a time */
+                min-width: 20%; /* Show 5 slides at a time */
                 box-sizing: border-box;
                 padding: 10px;
             }
@@ -184,6 +184,14 @@
             .slider-button.next {
                 right: 10px;
             }
+            
+            .welcome-message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+            
         </style>
     </head>
     <body>
@@ -196,9 +204,24 @@
                 <input type="text" placeholder="Search">
             </div>
             <div class="header-section">
-                <a href="/login" class="auth">Sign In</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'user_account' %}" class="auth">My Account</a>
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="auth" style="background: none; border: none; cursor: pointer;">Logout</button>
+                    </form>
+                    <div class="welcome-message">
+                        Hi, {{ user.username }}!
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="auth">Sign In</a>
+                    <div class="welcome-message">
+                        Welcome to the Bookstore!
+                    </div>
+                {% endif %}
             </div>
         </header>
+
     
         <!-- Categories Section -->
         <div class="categories">
@@ -229,7 +252,7 @@
                         {% else %}
                             <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
                         {% endif %}
-                        <h3>{{ book.title }}</h3>
+                        <h3><a href="{% url 'book_detail' book.pk %}" class="book-link">{{ book.title }}</a></h3>
                         <p>by {{ book.author }}</p>
                     </div>
                 </div>
@@ -242,9 +265,10 @@
         <!-- Content Section: Best Sellers -->
         <section class="content-section best-sellers">
     <h2>Best Sellers</h2>
-    <div class="slider-container" id="best-sellers-slider-container">
+    <div class="slider-container" id="best-sellers-slider">
         <button class="slider-button prev" onclick="moveSlide('best-sellers-slider', -1)">&#10094;</button>
-        <div class="slider" id="best-sellers-slider">
+        <div class="slider">
+
             {% for book in best_sellers %}
                 <div class="slide">
                     <div class="content-item">
@@ -253,7 +277,7 @@
                         {% else %}
                             <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
                         {% endif %}
-                        <h3>{{ book.title }}</h3>
+                        <h3><a href="{% url 'book_detail' book.pk %}" class="book-link">{{ book.title }}</a></h3>
                         <p>by {{ book.author }}</p>
                         <p>Total Sales: {{ book.total_sales }}</p>
                     </div>
@@ -279,7 +303,7 @@
                         {% else %}
                             <img src="https://via.placeholder.com/150" alt="Placeholder Cover">
                         {% endif %}
-                        <h3>{{ book.title }}</h3>
+                        <h3><a href="{% url 'book_detail' book.pk %}" class="book-link">{{ book.title }}</a></h3>
                         <p>{{ genre }}</p>
                         <p>by {{ book.author }}</p>
                     </div>
@@ -295,31 +319,26 @@
                 let currentSlide = 0;
             
                 function moveSlide(sliderId, direction) {
-                const slider = document.getElementById(sliderId); // Get the slider by its ID
-                const slides = slider.querySelectorAll('.slide'); // Get all slides
-                const slideWidth = slides[0].offsetWidth; // Get the width of one slide
-                const currentTransform = getComputedStyle(slider).transform; // Get the current transform
+                    const slider = document.querySelector(`#${sliderId} .slider`); // Target the correct slider div
+                    const slides = slider.querySelectorAll('.slide'); // Get all slides
+                    const slideWidth = slides[0].offsetWidth; // Get the width of one slide
+                    let currentX = parseInt(slider.style.transform.replace("translateX(", "").replace("px)", "")) || 0;
 
-                // Extract the current translateX value
-                let currentX = currentTransform === 'none' ? 0 : parseFloat(currentTransform.split(',')[4]);
+                    // Calculate new position
+                    const newX = currentX - direction * slideWidth;
 
-                // Calculate the new translateX value
-                const newX = currentX - direction * slideWidth;
+                    // Prevent scrolling past available slides
+                    const maxTransform = 0;
+                    const minTransform = -(slides.length - 4) * slideWidth; // Adjust for visible slides
 
-                // Prevent overflow
-                const maxTransform = 0;
-                const minTransform = -(slides.length - 1) * slideWidth;
+                    if (newX <= maxTransform && newX >= minTransform) {
+                        slider.style.transform = `translateX(${newX}px)`;
 
-                // Apply the new transform if within bounds
-                if (newX <= maxTransform && newX >= minTransform) {
-                    slider.style.transform = `translateX(${newX}px)`;
-
-                    // Enable/disable buttons based on position
-                    const container = document.getElementById(`${sliderId}-container`);
-                    const prevButton = container.querySelector('.prev');
-                    const nextButton = container.querySelector('.next');
-                    prevButton.disabled = newX >= maxTransform;
-                    nextButton.disabled = newX <= minTransform;
+                        // Enable/Disable Buttons
+                        const prevButton = document.querySelector(`#${sliderId} .prev`);
+                        const nextButton = document.querySelector(`#${sliderId} .next`);
+                        prevButton.disabled = newX >= maxTransform;
+                        nextButton.disabled = newX <= minTransform;
                 }
             }
             </script>

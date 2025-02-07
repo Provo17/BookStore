@@ -1,6 +1,8 @@
 from django.db import models
 from books.models import Book
 from users.models import User
+from django.core.exceptions import ValidationError
+
 
 class Sale(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="sales")
@@ -11,15 +13,28 @@ class Sale(models.Model):
     def __str__(self):
         return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date}"
 
+    def clean(self):
+        """
+        Ensure there is enough stock for the sale.
+        """
+        if self.book.stock < self.quantity:
+            raise ValidationError("Not enough stock available for this book.")
+
     @staticmethod
     def update_book_quantity(book_id, quantity):
         """
         Update the sales count and reduce stock for a book.
         """
-        book = Book.objects.get(id=book_id)
+        try:
+            book = Book.objects.get(id=book_id)
 
-        if book.stock < quantity:
-            raise ValueError("Not enough stock available")
+            # Check if stock is sufficient
+            if book.stock < quantity:
+                raise ValidationError("Not enough stock available.")
 
-        book.stock -= quantity
-        book.save()
+            # Reduce stock and save the book
+            book.stock -= quantity
+            book.save()
+
+        except Book.DoesNotExist:
+            raise ValidationError("Book does not exist.")
