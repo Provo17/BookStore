@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <a href="{% url 'index' %}" class="back-button">⬅ Back to Homepage</a>
     <title>My Account</title>
     <style>
         body {
@@ -26,6 +27,22 @@
             color: #333;
             margin-bottom: 10px;
         }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background: #0056b3;
+        }
+
 
         .welcome-message {
             font-size: 18px;

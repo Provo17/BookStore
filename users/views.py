@@ -70,3 +70,4 @@ def edit_account(request):
         form = EditAccountForm(instance=request.user)
 
     return render(request, 'bookstore/edit_account.html', {'form': form})
+

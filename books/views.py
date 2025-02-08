@@ -36,3 +36,28 @@ def record_sale(request, book_id):
 
     return JsonResponse({'success': 'Sale recorded successfully'})
 
+def books_by_genre(request, genre):
+    """Display books filtered by genre"""
+    books = Book.objects.filter(genre=genre)
+    return render(request, "bookstore/book_list.html", {"books": books, "genre": genre})
+
+GENRE_MAPPING = {
+    'FIC': 'Fiction',
+    'NF': 'Non-Fiction',
+    'MYST': 'Mystery',
+    'SCI': 'Science',
+    'FANT': 'Fantasy',
+    'BIO': 'Biography',
+    'HIST': 'History',
+    'ROM': 'Romance',
+    'CHILD': 'Children',
+    'OTHER': 'Other',
+}
+
+def books_by_genre(request, genre):
+    """ Display books filtered by genre """
+    if genre not in GENRE_MAPPING:
+        return render(request, "bookstore/book_list.html", {"books": [], "genre": "Unknown Genre"})
+
+    books = Book.objects.filter(genre=genre)  # Match against database genre values
+    return render(request, "bookstore/book_list.html", {"books": books, "genre": GENRE_MAPPING[genre]})

@@ -59,7 +59,7 @@
                 color: #333;
                 font-size: 16px;
             }
-    
+            
             .categories a:hover {
                 color: #007BFF;
             }
@@ -225,13 +225,20 @@
     
         <!-- Categories Section -->
         <div class="categories">
-            <a href="#">Books</a>
-            <a href="#">Fiction</a>
-            <a href="#">Non-Fiction</a>
-            <a href="#">Horror</a>
-            <a href="#">Romance</a>
-            <a href="#">Adventure</a>
+            <a href="{% url 'book_list' %}">All Books</a>
+            <a href="{% url 'books_by_genre' 'FIC' %}">Fiction</a>
+            <a href="{% url 'books_by_genre' 'NF' %}">Non-Fiction</a>
+            <a href="{% url 'books_by_genre' 'MYST' %}">Mystery</a>
+            <a href="{% url 'books_by_genre' 'SCI' %}">Science</a>
+            <a href="{% url 'books_by_genre' 'FANT' %}">Fantasy</a>
+            <a href="{% url 'books_by_genre' 'BIO' %}">Biography</a>
+            <a href="{% url 'books_by_genre' 'HIST' %}">History</a>
+            <a href="{% url 'books_by_genre' 'ROM' %}">Romance</a>
+            <a href="{% url 'books_by_genre' 'CHILD' %}">Children</a>
+            <a href="{% url 'books_by_genre' 'OTHER' %}">Other</a>
         </div>
+
+
     
         <!-- Hero Section -->
         <section class="hero">
