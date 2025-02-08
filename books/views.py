@@ -61,3 +61,16 @@ def books_by_genre(request, genre):
 
     books = Book.objects.filter(genre=genre)  # Match against database genre values
     return render(request, "bookstore/book_list.html", {"books": books, "genre": GENRE_MAPPING[genre]})
+
+def search_books(request):
+    query = request.GET.get('q', '')
+    results = Book.objects.filter(title__icontains=query) if query else []
+
+    # Assign a default image if cover_image is missing
+    for book in results:
+        if not book.cover_image:
+            book.cover_image_url = "https://via.placeholder.com/180x250"
+        else:
+            book.cover_image_url = book.cover_image.url
+
+    return render(request, 'bookstore/search_results.html', {'query': query, 'results': results})

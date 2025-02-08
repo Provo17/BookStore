@@ -201,7 +201,10 @@
                 Logo
             </div>
             <div class="header-section search-bar">
-                <input type="text" placeholder="Search">
+                <form action="{% url 'search_books' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search books..." required>
+                    <button type="submit">Search</button>
+                </form>
             </div>
             <div class="header-section">
                 {% if user.is_authenticated %}
@@ -351,6 +354,21 @@
             }
             </script>
         </footer>
+    <script>
+    document.querySelector('.search-bar input').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length > 2) {  // Trigger search after 3 characters
+            fetch(`/search/?q=${query}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector('#search-results').innerHTML = html;
+                });
+        } else {
+            document.querySelector('#search-results').innerHTML = '';
+        }
+    });
+</script>
+<div id="search-results"></div>
     </body>
 </html>
 

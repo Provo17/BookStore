@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results | Bookstore</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Search Query Display */
+        .query-text {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Book Grid */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        /* Book Card */
+        .book-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .book-card h3 {
+            font-size: 16px;
+            margin: 10px;
+            color: #333;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .book-card a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background: #007BFF;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+
+        .book-card a:hover {
+            background: #0056b3;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        /* Back to Homepage */
+        .back-home {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Search Results</h1>
+        <p class="query-text">Showing results for: <strong>"{{ query }}"</strong></p>
+
+        {% if results %}
+            <div class="book-grid">
+                {% for book in results %}
+                    <div class="book-card">
+                        <img src="{{ book.cover_image_url }}" alt="{{ book.title }} Cover">
+                        <h3>{{ book.title }}</h3>
+                        <p>by {{ book.author }}</p>
+                        <a href="{% url 'book_detail' book.pk %}">View Details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-results">No books found for your search.</p>
+        {% endif %}
+
+        <a href="{% url 'homepage' %}" class="back-home">← Back to Homepage</a>
+    </div>
+
+</body>
+</html>
+

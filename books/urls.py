@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import book_detail, book_list, record_sale, books_by_genre
+from .views import book_detail, book_list, record_sale, books_by_genre, search_books
 from . import views  # Import views from the books app
 
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('books/', views.book_list, name='book-list'),  # Example route for book list
     path('<int:book_id>/record-sale/', record_sale, name='record_sale'),  # Book sale recording
     path('genre/<str:genre>/', books_by_genre, name="books_by_genre"),
+    path('search/', search_books, name='search_books'),
 ]
 
