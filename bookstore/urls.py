@@ -30,5 +30,6 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('users/', include('users.urls')),
     path('', views.index, name='homepage'),  # Route homepage to index view
+    path("cart/", include("cart.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .cart-actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Cart</h1>
+
+    {% if cart_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.book.title }}</td>
+                    <td>
+                        <form action="{% url 'update_cart' item.book.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>${{ item.book.price }}</td>
+                    <td>${{ item.total_price }}</td>  <!-- FIXED: Use precomputed total price -->
+                    <td>
+                        <a href="{% url 'remove_from_cart' item.book.id %}">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <h3>Total Price: ${{ total_price }}</h3>
+
+        </table>
+
+        <h3>Total Price: ${{ total_price }}</h3>
+
+        <div class="cart-actions">
+            <a href="{% url 'index' %}" class="back-button">⬅ Continue Shopping</a>
+            <a href="{% url 'checkout' %}" class="checkout-button">Checkout</a>
+        </div>
+
+    {% else %}
+        <p>Your cart is empty.</p>
+        <a href="{% url 'index' %}" class="back-button">⬅ Back to Books</a>
+    {% endif %}
+</body>
+</html>
