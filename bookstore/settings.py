@@ -44,12 +44,9 @@ INSTALLED_APPS = [
     'bookstore',
     'books',
     'users',
-<<<<<<< HEAD
     'payments',
     'cart'
-=======
     'payments'
->>>>>>> aefe33c2a981346fcdbe67278de9877a517e0ce2
 ]
 
 MIDDLEWARE = [
