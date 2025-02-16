@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Book, Review
+=======
+from django.shortcuts import get_object_or_404, render
+from .models import Book
+from payments.models import Sale
+>>>>>>> aefe33c2a981346fcdbe67278de9877a517e0ce2
 from django.http import JsonResponse
 from payments.models import Sale
 from .forms import ReviewForm
@@ -9,6 +15,7 @@ def book_list(request):
     return render(request, 'bookstore/book_list.html', {'books': books})
 
 
+<<<<<<< HEAD
 def book_detail(request, book_id):  # ✅ Ensure the parameter matches urls.py
     book = get_object_or_404(Book, pk=book_id)
     reviews = book.reviews.all().order_by('-created_at')  # Show newest reviews first
@@ -29,6 +36,11 @@ def book_detail(request, book_id):  # ✅ Ensure the parameter matches urls.py
 
     return render(request, "bookstore/book_detail.html", {"book": book, "reviews": reviews, "form": form})
 
+=======
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, 'bookstore/book_detail.html', {'book': book})
+>>>>>>> aefe33c2a981346fcdbe67278de9877a517e0ce2
 
 
 def record_sale(request, book_id):

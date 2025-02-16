@@ -47,6 +47,7 @@ class Book(models.Model):
         unique_slug = slugify(self.title)
         self.slug = unique_slug
         super().save(*args, **kwargs)
+<<<<<<< HEAD
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="reviews")
@@ -57,3 +58,5 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} on {self.book.title}"
+=======
+>>>>>>> aefe33c2a981346fcdbe67278de9877a517e0ce2
