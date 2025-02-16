@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'users',
     'payments',
     'cart'
-    'payments'
 ]
 
 MIDDLEWARE = [
@@ -156,9 +155,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'  # Optional: Redirect to homepage after logout
-=======
->>>>>>> aefe33c2a981346fcdbe67278de9877a517e0ce2
+
