@@ -44,7 +44,50 @@
                 color: #007BFF;
                 font-weight: bold;
             }
-    
+            
+            .search-results-container {
+                position: absolute;
+                background: white;
+                border: 1px solid #ddd;
+                width: 300px;
+                max-height: 250px;
+                overflow-y: auto;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                padding: 10px;
+                margin-top: 5px;
+                display: none; /* ✅ Hide by default, JavaScript will toggle it */
+            }
+
+            
+            /* Fix search result styling */
+            .search-result {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                transition: background 0.3s ease-in-out; /* ✅ Smooth hover effect */
+            }
+            
+            .search-result img {
+                border-radius: 4px;
+            }
+            
+            /* Ensure links are styled properly */
+            .search-result a {
+                text-decoration: none;
+                color: black;
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            
+            /* Fix hover effect */
+            .search-result:hover {
+                background-color: #f4f4f4; /* ✅ Light gray on hover */
+                cursor: pointer;
+            }
+            
             /* Categories Section Styles */
             .categories {
                 background-color: #ddd;
@@ -62,6 +105,17 @@
             
             .categories a:hover {
                 color: #007BFF;
+            }
+            
+            /* Add spacing and make sure links don't get cut */
+            .search-result a strong {
+                margin-left: 10px;
+                font-size: 16px;
+            }
+            
+            /* Fix issue where search results were cut off */
+            .search-results-container:empty {
+                display: none;
             }
     
             /* Hero section styles */
@@ -192,6 +246,7 @@
             margin: 20px 0;
         }
             
+            
         </style>
     </head>
     <body>
@@ -202,8 +257,8 @@
             </div>
             <div class="header-section search-bar">
                 <form action="{% url 'search_books' %}" method="GET">
-                    <input type="text" name="q" placeholder="Search books..." required>
-                    <button type="submit">Search</button>
+                    <input type="text" id="searchInput" placeholder="Search books..." autocomplete="off">
+                    <div id="searchResults" class="search-results-container"></div>
                 </form>
             </div>
             <div class="header-section">
@@ -355,20 +410,56 @@
             </script>
         </footer>
     <script>
-    document.querySelector('.search-bar input').addEventListener('input', function() {
-        const query = this.value;
-        if (query.length > 2) {  // Trigger search after 3 characters
-            fetch(`/search/?q=${query}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.querySelector('#search-results').innerHTML = html;
+    document.getElementById("searchInput").addEventListener("input", function() {
+        let query = this.value.trim();
+        let resultsDiv = document.getElementById("searchResults");
+
+        if (query.length > 2) {  
+            fetch(`/books/search/?q=${query}`, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultsDiv.innerHTML = "";  
+                resultsDiv.style.display = "block";  // ✅ Show search results dynamically
+
+                if (data.results.length === 0) {
+                    resultsDiv.innerHTML = "<p>No results found.</p>";
+                    return;
+                }
+
+                data.results.forEach(book => {
+                    let bookItem = document.createElement("div");
+                    bookItem.classList.add("search-result");
+                    bookItem.innerHTML = `
+                        <a href="${book.book_url}">
+                            <img src="${book.cover_image}" alt="${book.title}" style="width: 50px; height: 75px; margin-right: 10px;">
+                            <strong>${book.title}</strong> by ${book.author}
+                        </a>
+                    `;
+                    resultsDiv.appendChild(bookItem);
                 });
+            })
+            .catch(error => console.error("Error:", error));
         } else {
-            document.querySelector('#search-results').innerHTML = '';
+            resultsDiv.innerHTML = "";  
+            resultsDiv.style.display = "none";  // ✅ Hide when search is empty
+        }
+    });
+
+    // Hide results when clicking outside
+    document.addEventListener("click", function(event) {
+        let searchBox = document.getElementById("searchInput");
+        let resultsDiv = document.getElementById("searchResults");
+        if (!searchBox.contains(event.target) && !resultsDiv.contains(event.target)) {
+            resultsDiv.style.display = "none";
         }
     });
 </script>
-<div id="search-results"></div>
+
+
+<div id="search-results" class="search-results-container"></div>
+    
     </body>
 </html>
 

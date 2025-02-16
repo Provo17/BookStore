@@ -1,15 +1,34 @@
-from django.shortcuts import get_object_or_404, render
-from .models import Book
+from django.shortcuts import get_object_or_404, render, redirect
+from .models import Book, Review
 from django.http import JsonResponse
 from payments.models import Sale
+from .forms import ReviewForm
+
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'bookstore/book_list.html', {'books': books})
 
 
-def book_detail(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    return render(request, 'bookstore/book_detail.html', {'book': book})
+def book_detail(request, book_id):  # ✅ Ensure the parameter matches urls.py
+    book = get_object_or_404(Book, pk=book_id)
+    reviews = book.reviews.all().order_by('-created_at')  # Show newest reviews first
+
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.book = book
+                review.user = request.user
+                review.save()
+                return redirect('book_detail', book_id=book.id)  # Refresh page after submission
+        else:
+            return redirect('login')  # Redirect non-authenticated users to login
+    else:
+        form = ReviewForm()
+
+    return render(request, "bookstore/book_detail.html", {"book": book, "reviews": reviews, "form": form})
+
 
 
 def record_sale(request, book_id):
@@ -63,14 +82,20 @@ def books_by_genre(request, genre):
     return render(request, "bookstore/book_list.html", {"books": books, "genre": GENRE_MAPPING[genre]})
 
 def search_books(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('q', '').strip()
     results = Book.objects.filter(title__icontains=query) if query else []
 
-    # Assign a default image if cover_image is missing
-    for book in results:
-        if not book.cover_image:
-            book.cover_image_url = "https://via.placeholder.com/180x250"
-        else:
-            book.cover_image_url = book.cover_image.url
+    # If request is an AJAX call, return JSON data
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        results_data = [
+            {
+                'title': book.title,
+                'author': book.author,
+                'cover_image': book.cover_image.url if book.cover_image else "https://via.placeholder.com/150",
+                'book_url': f"/books/book/{book.id}/"
+            } for book in results
+        ]
+        return JsonResponse({'results': results_data})
 
+    # If normal request, render the full search page
     return render(request, 'bookstore/search_results.html', {'query': query, 'results': results})

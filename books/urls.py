@@ -4,7 +4,7 @@ from . import views  # Import views from the books app
 
 urlpatterns = [
     path('', book_list, name='book_list'),
-    path('book/<int:pk>/', book_detail, name='book_detail'),
+    path('book/<int:book_id>/', book_detail, name='book_detail'),  # ✅ Ensure this format
     path('books/', views.book_list, name='book-list'),  # Example route for book list
     path('<int:book_id>/record-sale/', record_sale, name='record_sale'),  # Book sale recording
     path('genre/<str:genre>/', books_by_genre, name="books_by_genre"),
