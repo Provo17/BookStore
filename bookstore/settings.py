@@ -159,3 +159,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'  # Optional: Redirect to homepage after logout
 
+# djangostripe/settings.py
+
+STRIPE_PUBLISHABLE_KEY = '<your test publishable key here>'
+STRIPE_SECRET_KEY = '<your test secret key here>'
+
+ #djangostripe/settings.py
+
+STATIC_URL = '/static/'
+
+# for django >= 3.1
+STATICFILES_DIRS = [BASE_DIR / 'static']  # new
