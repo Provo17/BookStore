@@ -161,8 +161,8 @@ LOGOUT_REDIRECT_URL = '/'  # Optional: Redirect to homepage after logout
 
 # djangostripe/settings.py
 
-STRIPE_PUBLISHABLE_KEY = '<your test publishable key here>'
-STRIPE_SECRET_KEY = '<your test secret key here>'
+STRIPE_PUBLISHABLE_KEY = "pk_test_51QtF3kGAtmXtizKQGZZZfpWpUUPHuMzJ1o4Bmmc9qh80fR3oNl8KluqeDfuF5Q2eqnHAofEstt6eYMGIzBzma5ob00IcsCGuCG"
+STRIPE_SECRET_KEY = "sk_test_51QtF3kGAtmXtizKQmADq8kX5aldLRgtqmmL1HSqg1AdcIteRPyz8VmDjDW3a5cVtKNGnaOypciNAOI3CiissTY5F00mACN28BU"
 
  #djangostripe/settings.py
 
@@ -170,3 +170,11 @@ STATIC_URL = '/static/'
 
 # for django >= 3.1
 STATICFILES_DIRS = [BASE_DIR / 'static']  # new
+
+STRIPE_ENDPOINT_SECRET = "whsec_e128964a262faa0f02cc4d3ce1962147aa62f144315f031491dcf5bae3419cc2"
+
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db"  # ✅ Store sessions in database
+SESSION_COOKIE_AGE = 86400  # ✅ Keep session for 1 day
+SESSION_SAVE_EVERY_REQUEST = True  # ✅ Save session on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # ✅ Keep session after closing browser

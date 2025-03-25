@@ -23,6 +23,23 @@
         .cart-actions {
             margin-top: 20px;
         }
+        
+        #cart-checkout-button {
+            position: relative;
+            z-index: 1000;
+            cursor: pointer; /* Ensure it's clickable */
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #cart-checkout-button {
+            pointer-events: auto !important;
+        }
+
+        
     </style>
 </head>
 <body>
@@ -67,8 +84,42 @@
 
         <div class="cart-actions">
             <a href="{% url 'index' %}" class="back-button">⬅ Continue Shopping</a>
-            <a href="{% url 'checkout' %}" class="checkout-button">Checkout</a>
-        </div>
+            <button id="cart_checkout_button">Proceed to Checkout</button>
+        
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Stripe using the correct publishable key passed from your view
+    const stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
+    console.log("Stripe Publishable Key:", "{{ STRIPE_PUBLISHABLE_KEY }}");
+
+    const checkoutButton = document.getElementById("cart_checkout_button");
+    checkoutButton.addEventListener("click", function () {
+        console.log("🚀 Checkout button clicked! Fetching Stripe session...");
+
+        // Call your endpoint to create a checkout session
+        fetch("{% url 'create_checkout_session' %}", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(session => {
+            console.log("✅ Received session:", session);
+            // Redirect to Stripe Checkout
+            return stripe.redirectToCheckout({ sessionId: session.sessionId });
+        })
+        .catch(error => {
+            console.error("❌ Checkout Error:", error);
+            alert("❌ Failed to start checkout. See console for details.");
+        });
+    });
+});
+</script>
 
     {% else %}
         <p>Your cart is empty.</p>
