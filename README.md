@@ -12,13 +12,13 @@ A full-stack bookstore application built with **Django**, featuring full user au
 
 ## Features
 
-- 📖 **Browse Books** – View book listings, details, and genres dynamically
-- 🛒 **Shopping Cart** – Add/remove books, adjust quantities, view total costs
-- 👤 **User Authentication** – Sign up, log in, manage profile, and track orders
-- 💳 **Payments Integration** – Fully functioning checkout flow (Stripe or PayPal)
-- 🧩 **Modular App Design** – Books, users, cart, and payments are separate Django apps
-- 📸 **Media Support** – Book covers and other uploaded assets served dynamically
-- 🗂 **Admin Panel** – Full Django admin for managing books, users, and orders
+- **Browse Books** – View book listings, details, and genres dynamically
+-  **Shopping Cart** – Add/remove books, adjust quantities, view total costs
+-  **User Authentication** – Sign up, log in, manage profile, and track orders
+-  **Payments Integration** – Fully functioning checkout flow (Stripe or PayPal)
+-  **Modular App Design** – Books, users, cart, and payments are separate Django apps
+-  **Media Support** – Book covers and other uploaded assets served dynamically
+-  **Admin Panel** – Full Django admin for managing books, users, and orders
 
 ---
 
@@ -37,7 +37,7 @@ A full-stack bookstore application built with **Django**, featuring full user au
 
 ### Clone the repo:
 ```bash
-git clone https://github.com/Butler839/your-bookstore-repo.git
+git clone https://github.com/Butler839/BookStore
 cd BookStore
 ```
 
