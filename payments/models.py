@@ -11,17 +11,23 @@ class Sale(models.Model):
     sale_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-
-        def __str__(self):
-            return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date.strftime('%b %d, %Y at %I:%M %p')}"
+        return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date.strftime('%b %d, %Y at %I:%M %p')}"
 
     def clean(self):
         """
         Ensure there is enough stock for the sale.
         """
-        if self.book.stock < self.quantity:
+        if self.book.stock is None or self.book.stock < self.quantity:
             raise ValidationError("Not enough stock available for this book.")
-        return f"{self.quantity} copies of {self.book.title} sold on {self.sale_date}"
+
+    def save(self, *args, **kwargs):
+        """
+        Override save() to ensure stock is updated when a sale is made.
+        """
+        self.clean()  # Ensure validation runs before saving
+        self.book.stock -= self.quantity
+        self.book.save()
+        super().save(*args, **kwargs)
 
     @staticmethod
     def update_book_quantity(book_id, quantity):
@@ -31,17 +37,13 @@ class Sale(models.Model):
         try:
             book = Book.objects.get(id=book_id)
 
-            # Check if stock is sufficient
-            if book.stock < quantity:
+            if book.stock is None or book.stock < quantity:
                 raise ValidationError("Not enough stock available.")
 
-            # Reduce stock and save the book
             book.stock -= quantity
             book.save()
+            return f"Stock updated: {book.stock} remaining."
 
         except Book.DoesNotExist:
             raise ValidationError("Book does not exist.")
-        book = Book.objects.get(id=book_id)
-        book.stock -= quantity
-        book.save()
 

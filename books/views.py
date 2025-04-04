@@ -3,6 +3,8 @@ from .models import Book, Review
 from django.http import JsonResponse
 from payments.models import Sale
 from .forms import ReviewForm
+from django.conf import settings
+import stripe
 
 def book_list(request):
     books = Book.objects.all()
@@ -99,3 +101,11 @@ def search_books(request):
 
     # If normal request, render the full search page
     return render(request, 'bookstore/search_results.html', {'query': query, 'results': results})
+
+
+
+def payment_success(request):
+    return render(request, "bookstore/payment_success.html")
+
+def payment_cancelled(request):
+    return render(request, "bookstore/payment_cancelled.html")

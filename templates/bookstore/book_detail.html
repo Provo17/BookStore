@@ -150,15 +150,22 @@
     </form>
     
 
-        <!-- Buy Section -->
-        <div class="buy-section">
-            <input type="number" id="quantity" class="quantity-input" min="1" max="{{ book.stock }}" value="1">
-            <button class="buy-button" onclick="buyBook()">Buy Now</button>
-            <p id="message" class="message"></p>
-        </div>
+        <script src="https://js.stripe.com/v3/"></script>
 
-        <a href="{% url 'book_list' %}" class="back-link">⬅ Back to Book List</a>
-    </div>
+        <button id="checkout-button">Buy Now</button>
+
+        <script>
+            let stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}"); // Load your publishable key
+
+            document.getElementById("checkout-button").addEventListener("click", function () {
+                .then(response => response.json())
+                .then(session => {
+                    return stripe.redirectToCheckout({ sessionId: session.sessionId });
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        </script>
+
 
     <!-- JavaScript to Handle AJAX Request -->
     <script>
