@@ -8,7 +8,7 @@ from .models import Profile
 def create_profile(sender, instance, created, **kwargs):
     if created:
         # Automatically create a profile for the new user
-        Profile.objects.create(user=instance)
+        Profile.objects.get_or_create(user=instance)
 
         # Assign the user to a group based on their role (but exclude "admin")
         if instance.profile.role == 'customer':

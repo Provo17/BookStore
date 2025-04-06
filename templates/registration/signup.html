@@ -2,120 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <a href="{% url 'index' %}" class="back-button">⬅ Back to Homepage</a>
-    <title>My Account</title>
+    <title>Sign Up</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
         .back-button {
             display: inline-block;
-            margin-bottom: 15px;
-            text-decoration: none;
+            margin-top: 20px;
             padding: 10px 15px;
             background: #007BFF;
             color: white;
+            text-decoration: none;
             border-radius: 5px;
-            font-size: 16px;
         }
 
         .back-button:hover {
             background: #0056b3;
         }
-
-
-        .welcome-message {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .account-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .account-option {
-            padding: 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            background-color: #007BFF;
-            color: white;
-        }
-
-        .account-option:hover {
-            background-color: #0056b3;
-        }
-
-        .logout-btn {
-            background-color: #dc3545;
-        }
-
-        .logout-btn:hover {
-            background-color: #a71d2a;
-        }
-
-        .icon {
-            font-size: 20px;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>My Account</h1>
+    <h1>Sign Up</h1>
 
-        <p class="welcome-message">Hi, {{ user.username }}! Welcome to your account dashboard.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Account</button>
+    </form>
 
-        <div class="account-options">
-            <a href="{% url 'purchase_history' %}" class="account-option">
-                <span class="icon">📚</span> View Purchase History
-            </a>
-    
-            <!-- ✅ Only ONE "Edit Account" button here -->
-            <a href="{% url 'edit_account' %}" class="account-option">
-                <span class="icon">⚙️</span> Edit Account Settings
-            </a>
-
-    
-            <form action="{% url 'logout' %}" method="post" style="margin: 0;">
-                {% csrf_token %}
-                <button type="submit" class="account-option logout-btn">
-                    <span class="icon">🚪</span> Logout
-                </button>
-            </form>
-        </div>
-    </div>
-
+    <!-- ✅ Back button -->
+    <a href="{% url 'index' %}" class="back-button">⬅ Back to Homepage</a>
 </body>
 </html>
-

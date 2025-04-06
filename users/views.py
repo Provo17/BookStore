@@ -7,27 +7,25 @@ from .forms import EditAccountForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from payments.models import Sale  # Import the Sale model
+from .forms import SignUpForm  # ✅ CORRECT NOW
+
+
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('user_account')
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            # Ensure profile exists
-            profile, created = Profile.objects.get_or_create(user=user)
-            profile.role = form.cleaned_data.get('role')
-            profile.save()
-
             login(request, user)
-            return redirect('index')  # Redirect to homepage after signup
-        else:
-            print(form.errors)  # Debugging output
-
+            return redirect('edit_account')  # ✅ Redirect after signup
     else:
         form = SignUpForm()
 
     return render(request, 'registration/signup.html', {'form': form})
+
 
 def custom_login(request):
     if request.method == 'POST':
