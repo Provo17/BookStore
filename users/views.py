@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from payments.models import Sale  # Import the Sale model
 from .forms import SignUpForm  # ✅ CORRECT NOW
+from django.contrib.auth.forms import AuthenticationForm
+
 
 
 
@@ -28,6 +30,9 @@ def signup(request):
 
 
 def custom_login(request):
+    if request.user.is_authenticated:
+        return redirect('homepage')  # Or wherever you want authenticated users to go
+
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -37,14 +42,17 @@ def custom_login(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Hi {username}, welcome back!")
-                return redirect('homepage')  # Replace 'homepage' with the name of your homepage view
+                return redirect('homepage')  # Or redirect wherever you want
             else:
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
-    return render(request, 'users/login.html', {'form': form})
+
+    return render(request, 'registration/login.html', {'form': form})
+
+
 
 @login_required
 def purchase_history(request):

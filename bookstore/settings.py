@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+from decouple import config
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -157,12 +159,15 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'  # Optional: Redirect to homepage after logout
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
 
 # djangostripe/settings.py
 
-STRIPE_PUBLISHABLE_KEY = "pk_test_51QtF3kGAtmXtizKQGZZZfpWpUUPHuMzJ1o4Bmmc9qh80fR3oNl8KluqeDfuF5Q2eqnHAofEstt6eYMGIzBzma5ob00IcsCGuCG"
-STRIPE_SECRET_KEY = "sk_test_51QtF3kGAtmXtizKQmADq8kX5aldLRgtqmmL1HSqg1AdcIteRPyz8VmDjDW3a5cVtKNGnaOypciNAOI3CiissTY5F00mACN28BU"
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+
 
  #djangostripe/settings.py
 

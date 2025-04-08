@@ -1,3 +1,18 @@
+# --- PROJECT-SPECIFIC IGNORES ---
+db.sqlite3
+/media/
+books.zip
+templates.zip
+/setup/
+*.json
+
+# --- SYSTEM & GENERAL ---
+.DS_Store
+*.zip
+*.tar.gz
+*.bak
+*.swp
+
 # Django #
 *.log
 *.pot

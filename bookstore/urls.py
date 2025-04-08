@@ -22,6 +22,8 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.contrib.auth.views import LogoutView
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
@@ -31,5 +33,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', views.index, name='homepage'),  # Route homepage to index view
     path("cart/", include("cart.urls")),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

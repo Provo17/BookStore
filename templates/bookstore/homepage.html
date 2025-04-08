@@ -265,10 +265,12 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'user_account' %}" class="auth">My Account</a>
                     <a href="{% url 'cart_view' %}" class="auth">🛒 Cart</a>
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit" class="auth" style="background: none; border: none; cursor: pointer;">Logout</button>
+                        <button type="submit" class="auth">Logout</button>
                     </form>
+
+
                     <div class="welcome-message">
                         Hi, {{ user.username }}!
                     </div>
