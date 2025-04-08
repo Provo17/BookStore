@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-f)ow13cx*tn+q16!%-8ibxzhr4#-2ijm+nm8^r8al+z)03n_gn')
+SECRET_KEY = config("SECRET_KEY", default="fallback-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
@@ -176,7 +176,7 @@ STATIC_URL = '/static/'
 # for django >= 3.1
 STATICFILES_DIRS = [BASE_DIR / 'static']  # new
 
-STRIPE_ENDPOINT_SECRET = "whsec_e128964a262faa0f02cc4d3ce1962147aa62f144315f031491dcf5bae3419cc2"
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
 
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"  # ✅ Store sessions in database

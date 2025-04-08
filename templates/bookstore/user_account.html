@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .account-container {
+            max-width: 600px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .account-container h1 {
+            text-align: center;
+        }
+
+        .account-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .account-actions {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .account-actions .button {
+            margin: 0.5rem;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logout {
+            background-color: #dc3545;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            background-color: #6c757d;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="account-container">
+
+        <!-- Back Button -->
+        <a href="{% url 'homepage' %}" class="back-button">← Back to Home</a>
+
+        <h1>My Account</h1>
+
+        <div class="account-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+
+        <div class="account-actions">
+            <a href="{% url 'edit_account' %}" class="button">Edit Info</a>
+            <a href="{% url 'purchase_history' %}" class="button">Order History</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+

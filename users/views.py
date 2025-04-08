@@ -62,7 +62,8 @@ def purchase_history(request):
 
 @login_required
 def user_account(request):
-    return render(request, 'registration/signup.html', {'user': request.user})
+    return render(request, 'bookstore/user_account.html', {'user': request.user})
+
 
 @login_required
 def edit_account(request):
